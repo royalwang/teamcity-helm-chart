@@ -5,8 +5,8 @@ agent:
   replicaCount: 1
   image:
     repository: jetbrains/teamcity-agent
-    tag: latest
-    pullPolicy: Always
+    tag: 2022.04
+    pullPolicy: IfNotPresent
   resources:
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
@@ -16,15 +16,15 @@ agent:
       cpu: 800m
       memory: 968Mi
     requests:
-      cpu: 600m
-      memory: 968Mi
+      cpu: 200m
+      memory: 512Mi
   
 replicaCount: 1
 
 image:
   repository: jetbrains/teamcity-server
-  tag: latest
-  pullPolicy: Always
+  tag: 2022.04
+  pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
@@ -53,11 +53,20 @@ resources:
     cpu: 800m
     memory: 968Mi
   requests:
-    cpu: 600m
-    memory: 968Mi
+    cpu: 200m
+    memory: 512Mi
 
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+
+pvc:
+  enabled: true
+  ## @param pvc.size PVC Storage Request
+  ##
+  size: 8Gi
+  ## @param pvc.storageClassName Storage Class for volume
+  ##
+  storageClassName: local-path
